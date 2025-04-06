@@ -127,6 +127,51 @@
 </section>
 
 
+<section class="hero is-light is-small">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 mathvista">
+            <span class="mathvista">ddt tokens are recursive</span>
+  </h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered m-6">
+      
+      <div class="column is-full has-text-centered content">
+        <!-- <h2 class="title is-3"></h2> -->
+        <!-- <embed src="static/images/app-emu3.pdf" width="100%" height="700px"/> -->
+        <h2 class="title is-3">1. Progressively Image Decoding</h2>
+        <div class="content has-text-justified">
+        <p>To illustrate the recursive nature of DDT tokens, we only input a subset of the first t timestep tokens that are autoregressively sampled by DDT-LLaMA, into the decoder for image synthesis (t ranges from 1 to 480). As shown in  the following figure, with the number of tokens increasing, the image's attributes are progressively recovered. Initially, the decoder reconstructs fine details, with coarse-grained information such as contours and color information gradually completed until the full structure of the image is outlined. It demonstrates that <b>DDT tokens recursively disentangle visual attributes ranging from fine-to-coarse and are semantically combined to construct the image</b>.</p>
+      </div>
+        <img src="static/images/mask.png" alt="arithmetic reasoning" width="90%"/><br>
+        <!-- <div id="results-carousel" class="carousel results-carousel">
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/cases/1.png" alt="qs-len" width="77%"/>
+              <p></p>
+            </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/cases/2.png" alt="qs-len" width="65%"/>
+              <p></p>
+            </div>
+          </div>
+          <div class="box m-5">
+            <div class="content has-text-centered">
+              <img src="static/images/cases/0.png" alt="qs-len" width="78%"/>
+              <p></p>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</section>
+
 <footer class="footer">
     <div class="content has-text-centered">
     </div>
