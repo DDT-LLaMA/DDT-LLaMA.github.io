@@ -102,7 +102,7 @@
             </div>
 
           </div>
-          <span class="paper-block2">We are currently working on scaling up the training of our DDT tokenizer and the MLLM. <b style="color:#f41c1c">In the near future, we will release a more powerful version of DDT-LLaMA (We rename it as SelfTok), along with a more detailed technical report. Stay tuned!</b></span>
+          <span class="paper-block2">We are currently working on scaling up the training of our DDT tokenizer and the MLLM. <b style="color:#f41c1c">In the near future (Maybe at the end of April<img src="static/images/hugging.png" style="width:1.0em;vertical-align: middle" alt="Logo"/>), we will release a more powerful version of DDT-LLaMA (We rename it as SelfTok), along with a more detailed technical report. Stay tuned!</b></span>
         </div>
       </div>
     </div>
@@ -126,6 +126,29 @@
 </div>
 </section>
 
+<!-- <section class="hero is-light is-small">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 mathvista">
+            <span class="mathvista">framework</span>
+  </h1>
+  </div>
+</section> -->
+
+<!-- <section class="section">
+  <div class="container">
+    <div class="columns is-centered m-6">
+      Recall that we aim to learn a recursive sequence in the form $f_{t}(\mathbf{x}_0)=\left(f_{t-1}(\mathbf{x}_0\right), \textrm{V}_{t})$ at each $t$, such that $f_{t}(\mathbf{x}_0)$ makes up for the attribute loss in the noisy image $\mathbf{x}_t$. Hence we use an expanding set of tokens $({\mathrm{V}}_1,\ldots,{\mathrm{V}}_t)$ as the input to the decoder $d$, and train everything end-to-end with the reconstruction loss:
+\begin{equation}
+\small
+    \mathcal{L} = \mathop{\mathbb{E}}_{t, \mathbf{x}_0, \epsilon} \; \underbrace{\left[ \lVert  d \left( t \epsilon + (1-t) \mathbf{x}_0 , t, ({\mathrm{V}}_1,\ldots,{\mathrm{V}}_t)\right) - \mathbf{x}_0 \rVert^2 \right]}_\text{$\mathcal{L}_t$},
+    \label{eq:6}
+\end{equation}
+where we follow Rectified Flow~\cite{liu2022flow} to sample the noisy $\mathbf{x}_t = t \epsilon + (1-t) \mathbf{x}_0$ with the Gaussian noise $\epsilon$. We also use a standard commitment loss $\sum_{i=1}^T \lVert \hat{\mathrm{V}}_i - \mathrm{V}_i \rVert^2$ to regularize the encoder output (continuous vector) to be similar with the matched quantized vector.
+      <div class="column is-full has-text-centered content">
+      </div>
+    </div>
+  </div>
+</section> -->
 
 <section class="hero is-light is-small">
   <div class="hero-body has-text-centered">
@@ -142,11 +165,51 @@
       <div class="column is-full has-text-centered content">
         <!-- <h2 class="title is-3"></h2> -->
         <!-- <embed src="static/images/app-emu3.pdf" width="100%" height="700px"/> -->
-        <h2 class="title is-3">1. Progressively Image Decoding</h2>
+        <h2 class="title is-3">Progressively Image Decoding</h2>
         <div class="content has-text-justified">
         <p>To illustrate the recursive nature of DDT tokens, we only input a subset of the first t timestep tokens that are autoregressively sampled by DDT-LLaMA, into the decoder for image synthesis (t ranges from 1 to 480). As shown in  the following figure, with the number of tokens increasing, the image's attributes are progressively recovered. Initially, the decoder reconstructs fine details, with coarse-grained information such as contours and color information gradually completed until the full structure of the image is outlined. It demonstrates that <b>DDT tokens recursively disentangle visual attributes ranging from fine-to-coarse and are semantically combined to construct the image</b>.</p>
       </div>
-        <img src="static/images/mask.png" alt="arithmetic reasoning" width="90%"/><br>
+      <img src="static/images/mask.png" alt="arithmetic reasoning" width="90%"/><br>
+
+      <div class="column is-full has-text-centered content">
+        <!-- <h2 class="title is-3"></h2> -->
+        <!-- <embed src="static/images/app-emu3.pdf" width="100%" height="700px"/> -->
+        <h2 class="title is-3">Counterfactual Interpolation</h2>
+        <div class="content has-text-justified">
+        <p>We further conduct counterfactual interpolation with both DDT tokens and VQGAN tokens. Specifically, for the token sequence derived from an image, we replace a subset of tokens with those from another image, while keeping the remaining tokens fixed, with the resulting sequence fed into the decoder for image generation. As shown in the following figure, for VQGAN tokens, counterfactual interpolation actually performs <b>CutMix</b>, where regions from two images are concatenated. In contrast, DDT tokens, with their disentangled representation, ensure that only the attributes captured by the substituted tokens change in the generated counterfactuals, which allows for a <b>seamless semantic blending</b> of the two images.</p>
+      </div>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/inter/interpolation.png" alt="qs-len" width="90%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/inter/interpolation_2.png" alt="qs-len" width="90%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/inter/interpolation_3.png" alt="qs-len" width="90%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/inter/interpolation_4.png" alt="qs-len" width="90%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/inter/interpolation_1.png" alt="qs-len" width="90%"/>
+            <p></p>
+          </div>
+        </div>
+      </div>
         <!-- <div id="results-carousel" class="carousel results-carousel">
           <div class="box m-5">
             <div class="content has-text-centered">
@@ -169,6 +232,117 @@
         </div> -->
       </div>
     </div>
+  </div>
+</section>
+
+<section class="hero is-light is-small">
+  <div class="hero-body has-text-centered">
+  <h1 class="title is-1 mathvista">
+            <span class="mathvista">qualitative examples of ddt-llama</span>
+  </h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="columns is-centered m-6">
+      
+      <div class="column is-full has-text-centered content">
+        <h2 class="title is-3">T2I Generation</h2>
+        <div class="content has-text-justified">
+        <p>DDT-LLaMA can effectively follows various types of instructions, including complex ones such as generating surreal images and multi-condition combined prompts, to generate semantically-consistent images. Of course, there is room for improvement in the aesthetic quality of the images. This limitation stems from the fact that our current tokenizer was only trained on ImageNet with a resolution of 256x256.</p>
+      </div>
+      <!-- <img src="static/images/t2i.png" alt="arithmetic reasoning" width="90%"/><br> -->
+
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/t2i/t2i.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/t2i/t2i_1.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+      </div>
+      <div class="content has-text-justified">
+        <p>Here we present a direct comparison between DDT-LLaMA and Emu3 on prompts involving counting, color, and position. Though Emu3 generates images with higher aesthetic quality, it struggles to accurately respond to such prompts. In contrast, DDT-LLaMA generates images that <b>better align with the object attributes and the spatial relationships specified in the prompt</b>.</p>
+      </div>
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/emu3/compareemu3_1.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/emu3/compareemu3_2.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/emu3/compareemu3_3.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/emu3/compareemu3_4.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/emu3/compareemu3_5.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/emu3/compareemu3_6.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-full has-text-centered content">
+        <h2 class="title is-3">Image Editing</h2>
+        <div class="content has-text-justified">
+        <p>DDT-LLaMA supports a wide spectrum of editing operations including both local change (e.g., removal, replacement) and global change (change time, manipulation). For each case, the output images not only resemble the source image to a high degree but also are coherent with the instruction, demonstrating that DDT-LLaMA achieves <b>a great trade-off between fidelity and editability</b>.</p>
+      </div>
+
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/edit/edit.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+        <div class="box m-5">
+          <div class="content has-text-centered">
+            <img src="static/images/edit/edit_1.png" alt="qs-len" width="95%"/>
+            <p></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-full has-text-centered content">
+        <h2 class="title is-3">Scaling Law on T2I</h2>
+        <div class="content has-text-justified">
+          <p>We have also observed preliminary indications of scaling laws in our DDT-based MLLM. we also leverage Gemma2-2b for pre-training. And we further compare performance of T2I generation with two model sizes (2B,8B) at three different training stages (50\%, 75\%, and 100\% of total training tokens), as shown in the following figure. The observed improvements in visual quality align with scaling laws, which suggest that larger transformers trained on more extensive datasets can learn more detailed and fine-grained image distributions.</p>
+      </div>
+
+      
+      <img src="static/images/scaling.png" alt="arithmetic reasoning" width="90%"/>
+      
+      <!-- <img src="static/images/compareemu3.png" alt="arithmetic reasoning" width="90%"/><br> -->
+    </div>
+  </div>
   </div>
 </section>
 
