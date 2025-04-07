@@ -176,7 +176,13 @@
         <div class="content has-text-justified">
         <p>To illustrate the recursive nature of DDT tokens, we only input a subset of the first t timestep tokens that are autoregressively sampled by DDT-LLaMA, into the decoder for image synthesis (t ranges from 1 to 480). As shown in  the following figure, with the number of tokens increasing, the image's attributes are progressively recovered. Initially, the decoder reconstructs fine details, with coarse-grained information such as contours and color information gradually completed until the full structure of the image is outlined. It demonstrates that <b>DDT tokens recursively disentangle visual attributes ranging from fine-to-coarse and are semantically combined to construct the image</b>.</p>
       </div>
-      <img src="static/images/mask.png" alt="arithmetic reasoning" width="90%"/><br>
+      <img src="static/images/mask.png" alt="arithmetic reasoning" width="90%"/><br><br>
+      <div class="content has-text-justified">
+      <p>To more intuitively illustrate the differences in the token properties of spatial tokens (such as VQGAN tokens) and DDT tokens, we utilize a autoregressive class-conditional pretrained GPT model on DDT tokens to sample a series of images. We then encode the corresponding DDT tokens and VQGAN tokens for each image. For both types of tokens, we feed the corresponding tokenizer decoder with an expanding subset of tokens to decode the images, and present these images in the form of a GIF. It is evident that <b>DDT tokens represent a combination of visual attributes of an image, while VQGAN tokens are a concatenation of different spatial regions of the image</b>.</p></div><br>
+      <p><b>DDT tokens</b><img src="static/images/arrow-down.png" style="width:1.0em;vertical-align: middle" alt="Logo"/></p>
+      <img src="static/images/ddt_result.gif" alt="arithmetic reasoning" width="75%"/><br><br>
+      <p><b>VQGAN tokens</b><img src="static/images/arrow-down.png" style="width:1.0em;vertical-align: middle" alt="Logo"/></p>
+      <img src="static/images/vq_result.gif" alt="arithmetic reasoning" width="75%"/><br>
 
       <div class="column is-full has-text-centered content">
         <!-- <h2 class="title is-3"></h2> -->
