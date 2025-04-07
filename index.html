@@ -126,29 +126,36 @@
 </div>
 </section>
 
-<!-- <section class="hero is-light is-small">
+<section class="hero is-light is-small">
   <div class="hero-body has-text-centered">
   <h1 class="title is-1 mathvista">
             <span class="mathvista">framework</span>
   </h1>
   </div>
-</section> -->
+</section>
 
-<!-- <section class="section">
+<section class="section">
   <div class="container">
     <div class="columns is-centered m-6">
-      Recall that we aim to learn a recursive sequence in the form $f_{t}(\mathbf{x}_0)=\left(f_{t-1}(\mathbf{x}_0\right), \textrm{V}_{t})$ at each $t$, such that $f_{t}(\mathbf{x}_0)$ makes up for the attribute loss in the noisy image $\mathbf{x}_t$. Hence we use an expanding set of tokens $({\mathrm{V}}_1,\ldots,{\mathrm{V}}_t)$ as the input to the decoder $d$, and train everything end-to-end with the reconstruction loss:
-\begin{equation}
-\small
-    \mathcal{L} = \mathop{\mathbb{E}}_{t, \mathbf{x}_0, \epsilon} \; \underbrace{\left[ \lVert  d \left( t \epsilon + (1-t) \mathbf{x}_0 , t, ({\mathrm{V}}_1,\ldots,{\mathrm{V}}_t)\right) - \mathbf{x}_0 \rVert^2 \right]}_\text{$\mathcal{L}_t$},
-    \label{eq:6}
-\end{equation}
-where we follow Rectified Flow~\cite{liu2022flow} to sample the noisy $\mathbf{x}_t = t \epsilon + (1-t) \mathbf{x}_0$ with the Gaussian noise $\epsilon$. We also use a standard commitment loss $\sum_{i=1}^T \lVert \hat{\mathrm{V}}_i - \mathrm{V}_i \rVert^2$ to regularize the encoder output (continuous vector) to be similar with the matched quantized vector.
-      <div class="column is-full has-text-centered content">
+      
+      <div class="content has-text-justified">
+        <img src="static/images/model.png" alt="arithmetic reasoning" width="90%"/><br>
+        <p><img src="static/images/icon.png" style="width:1.0em;vertical-align: middle" alt="Logo"/><span class="mathvista">DDT</span> tokens are <b>RECURISIVE</b>, which is reflected in token intrinsic semantics during tokenizer learning. Unlike spatial tokenizers decoding all tokens at once, each <span class="mathvista">DDT</span> token is related to diffusion timesteps, building on the semantics of preceding tokens to compensate for newly-lost info in the current timestep. From early to late timesteps, an expanding subset of DDT tokens is input to the decoder, with new tokens compensating for newly-lost semantics in each timestep. During diffusion process, fine-grained attributes such as texture are lost with less noise added (i.e., early time-steps), while coarse-grained ones such as shape are lost by adding more noise (i.e., late time-steps). So <span class="mathvista">DDT</span> tokens recursively acquire attributes ranging from fine-to-coarse and are semantically combined to construct the image.</p><p>
+        Based on such recursive visual tokens, we develop <img src="static/images/icon.png" style="width:1.0em;vertical-align: middle" alt="Logo"/><img src="static/images/llama.png" style="width:1.0em;vertical-align: middle" alt="Logo"/><span class="mathvista">DDT-LLaMA</span> through autoregressive multimodal pretraining. We find <span class="mathvista">DDT-LLaMA</span> effectively integrates the strengths of LLMs in autoregressive reasoning and diffusion models in precise image generation, achieving seamless multimodal comprehension and generation within a unified framework. </p>
+        <p><b>Q:</b> Residual Tokenizers (such as VAR) design multiple tokens compensate for the information loss in a single quantization operation. What is the difference from Residual Tokenizers? </p>
+        <p><b>A:</b> Residual tokenizer aims to approximate the visual feature more precisely in a single quantization operation,  WITHOUT altering the essence of 'spatial tokenizer'. It divides tokens into multi-scales (from lower to higher resolutions) and the reconstructed image visually appears as the <b>mixup</b> of images from each scale.In contrast, DDT tokens are NOT spatial tokens, binding token decoding with diffusion timesteps. From early to late timesteps, an expanding subset of DDT tokens is input to the decoder, with new tokens compensating for newly-lost semantics in each timestep. So tokens recursively acquire attributes ranging from fine-to-coarse and are <b>semantically combined</b> to construct the image.
+          Below, we demonstrate examples of counterfactual interpolation using two images to further illustrate that VQGAN tokens and VAR tokens are spatial tokens (similar to cutmix or mixup), while DDT-tokens are semantic tokens.
+        <br>
+        <br>
+        <div style="display: grid; place-items: center;">
+        <img src="static/images/inter.png" alt="arithmetic reasoning" width="40%"/><br>
+        <img src="static/images/inter1.png" alt="arithmetic reasoning" width="60%"/><br>
+        <img src="static/images/inter2.png" alt="arithmetic reasoning" width="70%"/><br>
+        </div>
       </div>
     </div>
   </div>
-</section> -->
+</section>
 
 <section class="hero is-light is-small">
   <div class="hero-body has-text-centered">
